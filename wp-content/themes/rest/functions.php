@@ -3,7 +3,7 @@
 if ( ! isset( $content_width ) ) {
 	$content_width = 660;
 }
-
+add_theme_support( 'post-thumbnails' );
 /*
 * Admin 
 */ 
@@ -19,9 +19,11 @@ if ( !isset( $redux_demo ) && file_exists( dirname( __FILE__ ) . '/redux/options
 /*
 * meta box
 */
-//include('meta-box/inc/loader.php');
-include('meta-box/meta-box.php');
-include('meta-box/meta.php');
+ 
+
+ 
+include_once('includes/meta-box/meta-box.php');
+
 
 if (!function_exists('script')) {
     
@@ -59,8 +61,7 @@ function get_theme_options() {
 	 
 }
 
-	 
-if (!function_exists( 'post_type_main_menu' ) ) {
+	  
 add_action( 'init', 'post_type_main_menu' );  
  
 function post_type_main_menu() {
@@ -89,8 +90,9 @@ function post_type_main_menu() {
 		'taxonomies' => array('category')
 	);
 	register_post_type('menu',$args);
-}
-}
+} 
+
+
 /*
 *  First Rest
 */

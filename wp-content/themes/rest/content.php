@@ -185,9 +185,10 @@ get_header(); ?>
 									if($value->name == $categories[0]->cat_name ){
 										echo "<tr>";
 											echo '<th style="width:220px;" ><img src="'.$img_url.'"></th>';
-											echo '<th style="width:540px; text-align:left;">'.get_the_content().'</th>';
-											echo '<th>'.rwmb_meta( 're_massa', $args, $post_id ).'</th>';
-											echo '<th class="price-value">'.rwmb_meta( 're_price', $args, $post_id ).'</th>';
+											echo '<th style="width:540px; text-align:left;">'.get_the_title($post_id).'</th>';
+											echo '<th>'.get_post_meta($post_id , 'my_meta_weight', true).'</th>';
+
+											echo '<th class="price-value">'.get_post_meta($post_id, 'my_meta_price', true).'</th>';
 											echo '<th class="col-add-cart"> <span class="card-value " data-order="'.$post_id.'">В корзину</span></th>';
 										 
 										echo "</tr>";
@@ -200,25 +201,7 @@ get_header(); ?>
 
 
 
-
-/*
-while( $the_query->have_posts() ) :
-								$the_query->the_post();
-								$post_id = $the_query->post->ID;
-								$terms = get_the_terms( $post_id, 'category');
-								if ( $terms && ! is_wp_error( $terms ) ) {
-									foreach ( $terms as $term ) {
-										$filter_array[$term->name] = $term;
-									}
-								}
-							endwhile;
-
-							foreach ($filter_array as $key => $value) {
-							 
-									echo $value->name;
-								 
-							}
-*/
+ 
 			?>					 
 			 
  		</div>
