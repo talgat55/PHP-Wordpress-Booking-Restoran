@@ -305,18 +305,18 @@ $order = $_POST['value'];
 					 			</tr>';
   	foreach ($order as $key => $value) {
   	 	while( $the_query->have_posts() ) :	
-								$thumb   = get_post_thumbnail_id();
-								$img_url = wp_get_attachment_url( $thumb,'full');
+
 		$the_query->the_post();
 		$post_id = $the_query->post->ID;
-
+								$thumb   = get_post_thumbnail_id($post_id);
+								$img_url = wp_get_attachment_url( $thumb,'full');
 
 		if($post_id == $value){
 								
 										echo "<tr>";
 											echo '<th style="width:220px;" ><img src="'.$img_url.'"></th>';
-											echo '<th class="price-name" style="width:540px; text-align:left;">'.get_the_content().'</th>'; 
-											echo '<th class="price-value">'.rwmb_meta( 're_price', $args, $post_id ).'</th>'; 
+											echo '<th class="price-name" style="width:540px; text-align:left;">'.get_the_title($post_id).'</th>'; 
+											echo '<th class="price-value">'.get_post_meta($post_id, 'my_meta_price', true).'</th>'; 
 											echo "<th  class='align-left'>
     											<input type='button' value='-' class='qtyminus' field='quantity' />
 											    <input type='text' name='quantity' value='1' class='qty' />
@@ -326,7 +326,7 @@ $order = $_POST['value'];
 										 
 										echo "</tr>";
 
-										$pricesummm += rwmb_meta( 're_price', $args, $post_id );
+										$pricesummm += get_post_meta($post_id, 'my_meta_price', true);
 
 		}
 

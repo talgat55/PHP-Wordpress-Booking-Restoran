@@ -254,6 +254,15 @@
                 'title' => __('Координаты для второй  карты ',  'redux-framework-demo'), 
                 'default' => '40.6700, -72.9400'
             ),
+
+           array(
+                'id' => 'google-api-key', 
+                'type' => 'text', 
+                'title' => __('Google API Key ',  'redux-framework-demo')
+            ),
+
+
+
         )
     ) );
     
