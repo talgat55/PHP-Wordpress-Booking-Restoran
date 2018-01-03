@@ -11,9 +11,9 @@ get_header(); ?>
 					<span class="butt-cart clear">Очистить корзину</span>
 
 
-			</div>
-
 				</div>
+
+			</div>
 				<div class="block-order">
 						<div class="close-order-panel">✖</div>
 					
@@ -67,23 +67,7 @@ get_header(); ?>
 
 					jQuery('.cart-summ').append(Number(summes)+Number(pricevalue));
 
-						console.log(array);
-/*
-                          var data = {
-
-                            action: 'pushorder',
-                          
-                            value: order 
  
-                          
-                          }; 
-                          
-                          jQuery.post( '/wp-admin/admin-ajax.php', data, function(response) { 
-                          		 	alert();
-                          		jQuery('.result').append(response);
-                          });
-
-*/
 
           	  	});
 				jQuery('.butt-cart.clear').click(function(){ 

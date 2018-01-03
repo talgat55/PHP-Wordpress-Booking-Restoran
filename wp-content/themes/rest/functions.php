@@ -3,9 +3,14 @@
 if ( ! isset( $content_width ) ) {
 	$content_width = 660;
 }
-add_theme_support( 'post-thumbnails' );
 /*
-* Admin 
+* Add Feature Imagee
+**/
+
+add_theme_support( 'post-thumbnails' );
+
+/*
+* Admin Panel
 */ 
 
 if ( !class_exists( 'ReduxFramework' ) && file_exists( dirname( __FILE__ ) . '/redux/ReduxCore/framework.php' ) ) {
@@ -17,14 +22,17 @@ if ( !isset( $redux_demo ) && file_exists( dirname( __FILE__ ) . '/redux/options
 
 
 /*
-* meta box
+*  Add meta box in menu page
 */
  
-
  
 include_once('includes/meta-box/meta-box.php');
 
 
+
+/*
+* Add Styles and scripts
+*/
 if (!function_exists('script')) {
     
     function script() {  
@@ -39,6 +47,11 @@ if (!function_exists('script')) {
 
 add_action('wp_enqueue_scripts', 'script');
 
+
+/*
+* Add Navigation Menu
+*
+*/
 if ( function_exists( 'register_nav_menus' ) ) {
 
  
@@ -61,6 +74,9 @@ function get_theme_options() {
 	 
 }
 
+/*
+*  Rgister Post Type Menu
+*/
 	  
 add_action( 'init', 'post_type_main_menu' );  
  
@@ -94,7 +110,7 @@ function post_type_main_menu() {
 
 
 /*
-*  First Rest
+*    Order First Restoran in admin menu
 */
 if ( current_user_can( 'first_order' )   OR current_user_can( 'administrator' )  )  {
 add_action( 'admin_menu', 'first_order' );
@@ -110,38 +126,33 @@ function first_order_options() {
 	$results = $wpdb->get_results("SELECT * FROM ".$table_name." WHERE restoran ='one'");
 	$resultsorder = $wpdb->get_results("SELECT * FROM ".$table_name2." ");
 	echo ' <div class="wrap">';
-	echo ' <table  style="width:100%; background: #fff;
-    padding: 10px;">';
-					 		echo "
-					 			<tr>
-					 				<td style='    width: 90px;'>Дата</td>
-					 				<td  style='    width: 200px;'>ФИО</td>
-					 				<td>Наименование блюда</td>
-					 				<td>Цена</td>
+		echo ' <table  style="width:100%; background: #fff; padding: 10px;">';
+			echo "	<tr>
+						<td style='width: 90px;'>Дата</td>
+						<td  style='width: 200px;'>ФИО</td>
+						<td>Наименование блюда</td>
+						<td>Цена</td>
+					</tr>";
 
-					 			</tr>";
-					 			foreach ($results as $key => $value) {
-					 				echo "
-							 			<tr>
-							 				<th style='border-bottom: 1px solid #eee;'>".$value->date."</th>
-							 				<td  style='border-bottom: 1px solid #eee;'>".$value->fio."</td>
-							 				<td  style='border-bottom: 1px solid #eee; padding: 10px;'>";
-							 		foreach ($resultsorder as $key2 => $value2) {
-							 			if($value->id ==  $value2->current ){
+					foreach ($results as $key => $value) {
+						echo "
+							<tr>
+								<th style='border-bottom: 1px solid #eee;'>".$value->date."</th>
+								<td  style='border-bottom: 1px solid #eee;'>".$value->fio."</td>
+								<td  style='border-bottom: 1px solid #eee; padding: 10px;'>";
+									foreach ($resultsorder as $key2 => $value2) {
+										if($value->id ==  $value2->current ){
  
-							 				  		echo $value2->name.'<br>';
+							 				echo $value2->name.'<br>';
 							 				 
-
 							 			}
 
 							 		}
-									echo "
-							 				</td>
-							 				<td  style='border-bottom: 1px solid #eee;'>";
-							 				$price = 0;
+							 	echo '</td>';
+								echo "<td  style='border-bottom: 1px solid #eee;'>";
+							 		$price = 0;
 							 		foreach ($resultsorder as $key2 => $value2) {
 							 			if($value->id ==  $value2->current ){
-
 
 							 				$price += ($value2->price * $value2->quant);
 							 				 
@@ -149,21 +160,20 @@ function first_order_options() {
 
 							 		}
 							 		echo $price;
-									echo
-							 				"</td>
+								echo "</td>";
 
-							 			</tr>";
-					 			}
-
+						echo "</tr>";
+					}
 
 
-	echo ' </table>';
+
+		echo ' </table>';
  	echo '</div> ';
 }
 
 }
 /*
-*  Second Rest
+*  Order Two Restoran and view in admin menu
 */
 if ( current_user_can( 'two_order' )   OR current_user_can( 'administrator' )  )  {
 add_action( 'admin_menu', 'two_order' );
@@ -179,38 +189,33 @@ function two_order_options() {
 	$results = $wpdb->get_results("SELECT * FROM ".$table_name." WHERE restoran ='two'");
 	$resultsorder = $wpdb->get_results("SELECT * FROM ".$table_name2." ");
 	echo ' <div class="wrap">';
-	echo ' <table  style="width:100%; background: #fff;
-    padding: 10px;">';
+	echo ' <table  style="width:100%; background: #fff; padding: 10px;">';
+				echo "
+					<tr>
+						<td style='width: 90px;'>Дата</td>
+						<td  style='width: 200px;'>ФИО</td>
+						<td>Наименование блюда</td>
+						<td>Цена</td>
+					</tr>";
+					 	foreach ($results as $key => $value) {
 					 		echo "
-					 			<tr>
-					 				<td style='    width: 90px;'>Дата</td>
-					 				<td  style='    width: 200px;'>ФИО</td>
-					 				<td>Наименование блюда</td>
-					 				<td>Цена</td>
-
-					 			</tr>";
-					 			foreach ($results as $key => $value) {
-					 				echo "
-							 			<tr>
-							 				<th style='border-bottom: 1px solid #eee;'>".$value->date."</th>
-							 				<td  style='border-bottom: 1px solid #eee;'>".$value->fio."</td>
-							 				<td  style='border-bottom: 1px solid #eee; padding: 10px;'>";
+							<tr>
+							 	<th style='border-bottom: 1px solid #eee;'>".$value->date."</th>
+							 	<td  style='border-bottom: 1px solid #eee;'>".$value->fio."</td>
+							 	<td  style='border-bottom: 1px solid #eee; padding: 10px;'>";
 							 		foreach ($resultsorder as $key2 => $value2) {
 							 			if($value->id ==  $value2->current ){
  
-							 				  		echo $value2->name.'<br>';
+							 				echo $value2->name.'<br>';
 							 				 
-
 							 			}
-
 							 		}
-									echo "
-							 				</td>
-							 				<td  style='border-bottom: 1px solid #eee;'>";
-							 				$price = 0;
+						    echo "
+						    	</td>
+							 	<td  style='border-bottom: 1px solid #eee;'>";
+							 		$price = 0;
 							 		foreach ($resultsorder as $key2 => $value2) {
 							 			if($value->id ==  $value2->current ){
-
 
 							 				$price += ($value2->price * $value2->quant);
 							 				 
@@ -218,89 +223,81 @@ function two_order_options() {
 
 							 		}
 							 		echo $price;
-									echo
-							 				"</td>
+							echo
+							 	"</td>
 
-							 			</tr>";
-					 			}
+							</tr>";
+					 	}
 
 
 
-	echo ' </table>';
+		echo ' </table>';
  	echo '</div> ';
 }
 
 }
 /*
-* Add Roles
+* Add Roles Users
 */
 
-$result = add_role( 'first_order', __(
-'Первый ресторан' ),
-array( ) );
-$result = add_role( 'two_order', __(
-'Второй ресторан' ),
-array( ) );
+$result = add_role( 'first_order', __('Первый ресторан' ),array( ) );
+$result = add_role( 'two_order', __('Второй ресторан' ),array( ) );
 
 
 /*
-*  Order
+* Order form 
 */
-/*
-add_action('wp_ajax_nopriv_ordertrue', 'ordertrue_callback');
-function ordertrue_callback() {
-
-
-}*/
-
 add_action('wp_ajax_nopriv_pushorder', 'pushorder_callback');
 function pushorder_callback() {
 $order = $_POST['value'];
 
-	$args = array(
-		'post_type'        => 'menu'
-	);
+	$args = array('post_type'  => 'menu' );
 	$the_query = new WP_Query($args);
 		echo "<table class='order-ship'>";
-		echo '<tr>
-					 				<td>Фото</td>
-					 				<td>Название</td> 
-					 				<td>Цена, <br>руб</td>
-					 				<td>Количество</td>
+		echo '	<tr>
+					<td>Фото</td>
+					<td>Название</td> 
+					<td>Цена, <br>руб</td>
+					<td>Количество</td>
 
-					 			</tr>';
-  	foreach ($order as $key => $value) {
-  	 	while( $the_query->have_posts() ) :	
+				</tr>';
+	  	foreach ($order as $key => $value) {
+	  	 	while( $the_query->have_posts() ) :	
 
-		$the_query->the_post();
-		$post_id = $the_query->post->ID;
-								$thumb   = get_post_thumbnail_id($post_id);
-								$img_url = wp_get_attachment_url( $thumb,'full');
+			$the_query->the_post();
+			$post_id = $the_query->post->ID;
+			$thumb   = get_post_thumbnail_id($post_id);
+			$img_url = wp_get_attachment_url( $thumb,'full');
 
-		if($post_id == $value){
-								
-										echo "<tr>";
-											echo '<th style="width:220px;" ><img src="'.$img_url.'"></th>';
-											echo '<th class="price-name" style="width:540px; text-align:left;">'.get_the_title($post_id).'</th>'; 
-											echo '<th class="price-value">'.get_post_meta($post_id, 'my_meta_price', true).'</th>'; 
-											echo "<th  class='align-left'>
-    											<input type='button' value='-' class='qtyminus' field='quantity' />
-											    <input type='text' name='quantity' value='1' class='qty' />
-											    <input type='button' value='+' class='qtyplus' field='quantity' />
+			if($post_id == $value){
+									
+				echo "<tr>";
+				echo '	<th style="width:220px;" >
+							<img src="'.$img_url.'">
+						</th>';
+				echo '	<th class="price-name" style="width:540px; text-align:left;">
+							'.get_the_title($post_id).'
+						</th>'; 
+				echo '	<th class="price-value">
+							'.get_post_meta($post_id, 'my_meta_price', true).'
+						</th>'; 
+				echo "	<th  class='align-left'>
+	    					<input type='button' value='-' class='qtyminus' field='quantity' />
+							<input type='text' name='quantity' value='1' class='qty' />
+							<input type='button' value='+' class='qtyplus' field='quantity' />
+						</th>"; 
+											 
+				echo "</tr>";
 
-											</th>"; 
-										 
-										echo "</tr>";
+				$pricesummm += get_post_meta($post_id, 'my_meta_price', true);
 
-										$pricesummm += get_post_meta($post_id, 'my_meta_price', true);
+			}
 
-		}
+			endwhile;
+			
+	  	}
 
-		endwhile;
-		
-  	}
-
-										echo "
+echo "
 <script>
 jQuery(document).ready(function(){
 /*
@@ -411,18 +408,15 @@ jQuery(document).ready(function(){
 	});
 });
 </script>
-
-										";
+";
 
  	echo "</table>";
   	echo "<table>";
-  	 echo "<tr><th class='align-left'> Ваше ФИО: <input type='text' name='fio'  class='fio-order' /></th>";
-  	 echo "<th><div style='vertical-align:middle'> Выберите ресторан: <select name='selectrestoran' class='choose-restoran'><option value='one'>ONE</option><option value='two'>TWO</option></select></div></th>";
+  	echo "<tr><th class='align-left'> Ваше ФИО: <input type='text' name='fio'  class='fio-order' /></th>";
+  	echo "<th><div style='vertical-align:middle'> Выберите ресторан: <select name='selectrestoran' class='choose-restoran'><option value='one'>ONE</option><option value='two'>TWO</option></select></div></th>";
   
- 	 echo '<th class="align-left-summ-cart">Сумма: <span class="order-summ ">'.$pricesummm.'</span></th></tr>';
-  
- 
- 	 echo "</table>"; 
+ 	echo '<th class="align-left-summ-cart">Сумма: <span class="order-summ ">'.$pricesummm.'</span></th></tr>';
+    echo "</table>"; 
  	echo '<div class="align-right-order-button"><span class="order-true">оформить заказ</span></div>';
 
   	 
