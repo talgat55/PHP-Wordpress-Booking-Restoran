@@ -242,40 +242,6 @@ $result = add_role( 'two_order', __(
 'Второй ресторан' ),
 array( ) );
 
-/*
-add_action( 'after_setup_theme', 'create_tables' );
-function create_tables ()
-{
-	global $wpdb;
-	require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
-
-	$table_name = $wpdb->prefix . "order";
-	if ($wpdb->get_var("show tables like '$table_name'") != $table_name) {
-
-
-		$charset_collate = "DEFAULT CHARACTER SET {$wpdb->charset} COLLATE {$wpdb->collate}";
-
-	$sql = "CREATE TABLE {$table_name} (
-	  id mediumint(9) NOT NULL AUTO_INCREMENT,
-	  namemenu text,
-	  pricevalue text,
-	  UNIQUE KEY id (id)  
-	   
-	)
-	{$charset_collate};";
-
-
-
-
-		dbDelta($sql);
-
-		 
-
-	}
-}
-
-*/
-
 
 /*
 *  Order
@@ -464,6 +430,70 @@ jQuery(document).ready(function(){
 
 wp_die();
 }
+ 
+/**
+ * Create Tables if not exist
+ *   
+ */
+add_action( 'after_setup_theme', 'create_tables' );
+function create_tables (){
+	global $wpdb;
+	
+	$table_name2 = $wpdb->prefix . "order";
+	$table_name = $wpdb->prefix . "orderlist";
+
+	if ($wpdb->get_var("show tables like '$table_name2'") != $table_name2) {
+
+
+	$charset_collate = "DEFAULT CHARACTER SET {$wpdb->charset} COLLATE {$wpdb->collate}";
+
+	$sql = "CREATE TABLE {$table_name2} (
+	  id mediumint(9) NOT NULL AUTO_INCREMENT,
+	  name text,
+	  price text,
+	  current text,
+	  quant text,
+	  UNIQUE KEY id (id)  
+	   
+	)
+	{$charset_collate};";
+	require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+	dbDelta($sql);
+
+		 
+
+	}
+
+	if ($wpdb->get_var("show tables like '$table_name'") != $table_name) {
+
+
+	$charset_collate = "DEFAULT CHARACTER SET {$wpdb->charset} COLLATE {$wpdb->collate}";
+
+	$sql = "CREATE TABLE {$table_name} (
+	  id mediumint(9) NOT NULL AUTO_INCREMENT,
+	  fio text,
+	  restoran text,
+	  date date, 
+	  UNIQUE KEY id (id)  
+	   
+	)
+	{$charset_collate};";
+	require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+	dbDelta($sql);
+
+		 
+
+	}
+
+
+
+
+}
+ 
+ 
+/*
+* AJAX  Save Order
+**/
 add_action('wp_ajax_nopriv_ordertrue', 'ordertrue_callback');
 function ordertrue_callback() {
 	global $wpdb;
@@ -472,9 +502,10 @@ function ordertrue_callback() {
 	$restoran = $_POST['restoran'];
 	$fio = $_POST['fio'];
 
-$table_name = $wpdb->prefix . "orderlist";
-$table_name2 = $wpdb->prefix . "order";
-$date = date('Y-m-d');
+	$table_name = $wpdb->prefix . "orderlist";
+	$table_name2 = $wpdb->prefix . "order";
+	$date = date('Y-m-d');
+
 			$wpdb->query( $wpdb->prepare(
 			    "INSERT INTO `".$table_name."` (id, fio, restoran,date) VALUES ( %d, %s, %s, %s )",
 			    array(
